@@ -8,7 +8,10 @@ module.exports = (sequelize) => {
         password: { type: DataTypes.STRING, allowNull: false },
         email: { type: DataTypes.STRING, unique: true },
         role: { type: DataTypes.ENUM("student", "teacher", "admin"), allowNull: false },
-    }, { timestamps: true });
+    }, {
+        tableName: "users",
+        timestamps: true
+    });
 
     return User;
 };
