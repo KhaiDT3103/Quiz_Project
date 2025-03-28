@@ -42,25 +42,6 @@ exports.deleteSubject = async (req, res) => {
 }
 
 //Sửa môn học
-// exports.updateUser = async (req, res) => {
-//     try {
-//         const { user_id } = req.params;
-//         const { username, password, role, email } = req.body;
-//         const user = await User.findByPk(user_id);
-//         if (!user) {
-//             return res.status(404).json({ message: "Không tìm thấy người dùng" });
-//         }
-//         user.username = username || user.username;
-//         user.password = password || user.password;
-//         user.role = role || user.role;
-//         user.email = email || user.email;
-//         user.updatedAt = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss");
-//         await user.save();
-//         res.status(200).json({ message: `Người dùng có ID ${user_id} đã được cập nhật`, user });
-//     } catch (error) {
-//         res.status(500).json({ message: "Lỗi server", error: error.message || error });
-//     }
-// }
 exports.updateSubject = async (req, res) => {
     try {
         const { subject_id } = req.params;
