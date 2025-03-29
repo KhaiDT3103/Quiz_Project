@@ -1,4 +1,4 @@
-console.log("⚡ Đang chạy models/subject.js...");
+
 const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
     const Subject = sequelize.define("Subject", {
@@ -8,5 +8,8 @@ module.exports = (sequelize) => {
         tableName: "subjects",
         timestamps: false
     });
+    Subject.associate = (models) => {
+        Subject.hasMany(models.SubSubject, { foreignKey: "subject_id", as: "subsubjects" });
+    };
     return Subject;
 };

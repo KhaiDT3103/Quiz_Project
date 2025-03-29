@@ -1,4 +1,4 @@
-const { Subject } = require("../models");
+const { Subject, SubSubject } = require("../models");
 
 //Lấy tất cả môn học
 exports.getAllSubjects = async (req, res) => {
@@ -9,7 +9,22 @@ exports.getAllSubjects = async (req, res) => {
         res.status(500).json({ message: "Lỗi server", error });
     }
 };
+//Lấy tất cả môn học chính và phân lớp
+exports.getAllSubjectsWithSubSubject = async (req, res) => {
+    try {
+        const subjects = await Subject.findAll({
+            include: [{
+                model: SubSubject,
+                as: "subsubjects",
+                attributes: ["subsubjects_id", "subject_name"]
+            }]
+        });
 
+        res.json(subjects);
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server", error });
+    }
+};
 //Thêm môn học
 exports.createSubject = async (req, res) => {
     try {

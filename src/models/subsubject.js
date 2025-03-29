@@ -8,5 +8,8 @@ module.exports = (sequelize) => {
         tableName: "subsubjects",
         timestamps: false
     });
+    SubSubject.associate = (models) => {
+        SubSubject.belongsTo(models.Subject, { foreignKey: "subject_id", as: "subject" });
+    };
     return SubSubject;
 };
