@@ -1,5 +1,6 @@
 
 const { DataTypes } = require("sequelize");
+
 module.exports = (sequelize) => {
     const Question = sequelize.define("Question", {
         //subject_id: { type: DataTypes.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true },
@@ -12,5 +13,11 @@ module.exports = (sequelize) => {
         tableName: "questions",
         timestamps: true
     });
+    Question.associate = (models) => {
+        Question.hasMany(models.Answer, {
+            foreignKey: "question_id",
+            as: "answers" // Alias này phải khớp với `as` trong include
+        });
+    };
     return Question;
 };

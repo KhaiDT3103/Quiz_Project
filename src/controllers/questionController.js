@@ -1,4 +1,4 @@
-const { User, SubSubject, Question } = require("../models");
+const { User, SubSubject, Question, Answer } = require("../models");
 const { Sequelize } = require("sequelize");
 const moment = require("moment-timezone");
 //Lấy câu hỏi theo môn học tăng dần theo độ khó
@@ -13,6 +13,11 @@ exports.getAllQuestionBySubjectID = async (req, res) => {
 
         // Lấy danh sách các câu hỏi thuộc môn học này
         const questions = await Question.findAll({
+            include: [{
+                model: Answer,
+                as: "answers",
+                attributes: ["answer_id", "answer_text", "is_correct"],
+            }],
             where: { subject_id },
             order: [
                 [Sequelize.literal("FIELD(difficulty, 'easy', 'medium', 'hard')")]
@@ -50,3 +55,18 @@ exports.createQuestion = async (req, res) => {
 };
 
 //Xoá câu hỏi
+exports.deleteQuestion = async (req, res) => {
+    try {
+        const { question_id } = req.params;
+        const question = await Question.findByPk(question_id);
+        if (!question) {
+            return res.status(404).json({ message: "Không tìm thấy câu hỏi" });
+        }
+        await question.destroy();
+        res.status(200).json({ message: `Câu hỏi đã bị xóa` });
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server", error: error.message || error });
+    }
+}
+
+//Sửa câu hỏi
