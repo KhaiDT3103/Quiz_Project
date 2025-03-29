@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th3 28, 2025 lúc 04:08 AM
+-- Thời gian đã tạo: Th3 29, 2025 lúc 10:10 AM
 -- Phiên bản máy phục vụ: 9.1.0
 -- Phiên bản PHP: 8.3.14
 
@@ -267,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `questions` (
   PRIMARY KEY (`question_id`),
   KEY `questions_created_by_foreign` (`created_by`),
   KEY `questions_subject_id_foreign` (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `questions`
@@ -304,7 +304,8 @@ INSERT INTO `questions` (`question_id`, `subject_id`, `question_text`, `difficul
 (48, 2, 'Định luật Ôm cho toàn mạch được biểu diễn bằng công thức:', 'medium', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
 (49, 2, 'Hiệu điện thế giữa hai đầu một dây dẫn là 12V, cường độ dòng điện qua dây là 0.5A. Điện trở của dây là:', 'medium', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
 (50, 2, 'Một con lắc đơn có chiều dài 1m dao động với chu kỳ là (g=9.8m/s²):', 'hard', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
-(51, 2, 'Hiện tượng giao thoa ánh sáng chứng tỏ ánh sáng có tính chất gì?', 'hard', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00');
+(51, 2, 'Hiện tượng giao thoa ánh sáng chứng tỏ ánh sáng có tính chất gì?', 'hard', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
+(52, 1, '10 * 10 bằng ?', 'easy', 1, '2025-03-28 16:30:22', '2025-03-28 16:30:22');
 
 -- --------------------------------------------------------
 
@@ -335,7 +336,7 @@ CREATE TABLE IF NOT EXISTS `subjects` (
   `subject_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `subjects`
@@ -344,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `subjects` (
 INSERT INTO `subjects` (`subject_id`, `name`) VALUES
 (1, 'Toán'),
 (2, 'Vật lý'),
-(3, 'Hóa học');
+(3, 'Lịch sử');
 
 -- --------------------------------------------------------
 
@@ -359,7 +360,7 @@ CREATE TABLE IF NOT EXISTS `subsubjects` (
   `subject_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`subsubjects_id`),
   KEY `subsubjects_subject_id_foreign` (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `subsubjects`
@@ -371,7 +372,7 @@ INSERT INTO `subsubjects` (`subsubjects_id`, `subject_name`, `subject_id`) VALUE
 (3, 'Toán 12', 1),
 (4, 'Vật Lý 10', 2),
 (5, 'Vật Lý 11', 2),
-(6, 'Vật Lý 12', 2);
+(6, 'Vật lý 12', 2);
 
 -- --------------------------------------------------------
 
