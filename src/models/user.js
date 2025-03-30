@@ -1,4 +1,4 @@
-console.log("⚡ Đang chạy models/user.js...");
+
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {

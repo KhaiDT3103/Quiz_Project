@@ -10,6 +10,10 @@ module.exports = (sequelize) => {
     });
     SubSubject.associate = (models) => {
         SubSubject.belongsTo(models.Subject, { foreignKey: "subject_id", as: "subject" });
+        SubSubject.hasMany(models.Exam, {
+            foreignKey: "subsubject_id",
+            as: "exams"
+        });
     };
     return SubSubject;
 };

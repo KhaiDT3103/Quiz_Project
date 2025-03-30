@@ -18,6 +18,7 @@ module.exports = (sequelize) => {
             foreignKey: "question_id",
             as: "answers" // Alias này phải khớp với `as` trong include
         });
+
     };
     return Question;
 };
