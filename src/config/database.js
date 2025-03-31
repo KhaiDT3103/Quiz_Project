@@ -13,6 +13,8 @@
 //     .catch(err => console.error("❌ Lỗi kết nối MySQL:", err));
 
 // module.exports = sequelize;
+
+
 const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize(
