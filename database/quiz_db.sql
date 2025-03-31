@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th3 29, 2025 lúc 10:10 AM
+-- Thời gian đã tạo: Th3 31, 2025 lúc 10:12 AM
 -- Phiên bản máy phục vụ: 9.1.0
 -- Phiên bản PHP: 8.3.14
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `answers` (
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`answer_id`),
   KEY `answers_question_id_foreign` (`question_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=212 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `answers`
@@ -232,22 +232,24 @@ CREATE TABLE IF NOT EXISTS `exams` (
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `created_by` int UNSIGNED NOT NULL,
+  `subsubject_id` int UNSIGNED NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`exam_id`),
-  KEY `exams_created_by_foreign` (`created_by`)
+  KEY `exams_created_by_foreign` (`created_by`),
+  KEY `exams_subsubject_id_foreign` (`subsubject_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `exams`
 --
 
-INSERT INTO `exams` (`exam_id`, `title`, `description`, `created_by`, `createdAt`, `updatedAt`) VALUES
-(1, 'Đề kiểm tra Toán 10 - Học kỳ 1', 'Đề thi gồm 20 câu hỏi trắc nghiệm Toán 10', 1, '2025-03-27 00:00:00', '2025-03-27 00:00:00'),
-(2, 'Đề thi thử Toán 12', 'Đề thi thử THPT Quốc gia môn Toán', 1, '2025-03-27 00:00:00', '2025-03-27 00:00:00'),
-(3, 'Kiểm tra Vật lý 11 - Chương 1', 'Đề kiểm tra 45 phút môn Vật lý lớp 11', 1, '2025-03-27 00:00:00', '2025-03-27 00:00:00'),
-(4, 'Đề kiểm tra Vật lý 10 - Chương 1', 'Đề kiểm tra 45 phút môn Vật lý lớp 10', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
-(5, 'Đề thi thử Vật lý 12', 'Đề thi thử THPT Quốc gia môn Vật lý', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00');
+INSERT INTO `exams` (`exam_id`, `title`, `description`, `created_by`, `subsubject_id`, `createdAt`, `updatedAt`) VALUES
+(1, 'Đề kiểm tra Toán 10 - Học kỳ 1', 'Đề thi gồm 20 câu hỏi trắc nghiệm Toán 10', 1, 1, '2025-03-27 00:00:00', '2025-03-27 00:00:00'),
+(2, 'Đề thi thử Toán 12', 'Đề thi thử THPT Quốc gia môn Toán', 1, 3, '2025-03-27 00:00:00', '2025-03-27 00:00:00'),
+(3, 'Kiểm tra Vật lý 11 - Chương 1', 'Đề kiểm tra 45 phút môn Vật lý lớp 11', 1, 5, '2025-03-27 00:00:00', '2025-03-27 00:00:00'),
+(4, 'Đề kiểm tra Vật lý 10 - Chương 1', 'Đề kiểm tra 45 phút môn Vật lý lớp 10', 1, 4, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
+(5, 'Đề thi thử Vật lý 12', 'Đề thi thử THPT Quốc gia môn Vật lý', 1, 6, '2025-03-28 00:00:00', '2025-03-28 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -267,14 +269,14 @@ CREATE TABLE IF NOT EXISTS `questions` (
   PRIMARY KEY (`question_id`),
   KEY `questions_created_by_foreign` (`created_by`),
   KEY `questions_subject_id_foreign` (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `questions`
 --
 
 INSERT INTO `questions` (`question_id`, `subject_id`, `question_text`, `difficulty`, `created_by`, `createdAt`, `updatedAt`) VALUES
-(1, 1, '2 + 2 bằng mấy?', 'easy', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 1, '2 + 2 bằng ?', 'easy', 1, '0000-00-00 00:00:00', '2025-03-31 00:59:27'),
 (22, 1, 'Giá trị của biểu thức 5 + 3 × 2 là bao nhiêu?', 'easy', 1, '2025-03-27 18:29:49', '2025-03-27 18:29:49'),
 (23, 1, 'Nếu x = 4 thì giá trị của biểu thức x^2 - 3x + 2 là bao nhiêu?', 'medium', 1, '2025-03-27 18:29:49', '2025-03-27 18:29:49'),
 (24, 1, 'Phương trình 2x - 5 = 7 có nghiệm là bao nhiêu?', 'easy', 1, '2025-03-27 18:29:49', '2025-03-27 18:29:49'),
@@ -304,8 +306,7 @@ INSERT INTO `questions` (`question_id`, `subject_id`, `question_text`, `difficul
 (48, 2, 'Định luật Ôm cho toàn mạch được biểu diễn bằng công thức:', 'medium', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
 (49, 2, 'Hiệu điện thế giữa hai đầu một dây dẫn là 12V, cường độ dòng điện qua dây là 0.5A. Điện trở của dây là:', 'medium', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
 (50, 2, 'Một con lắc đơn có chiều dài 1m dao động với chu kỳ là (g=9.8m/s²):', 'hard', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
-(51, 2, 'Hiện tượng giao thoa ánh sáng chứng tỏ ánh sáng có tính chất gì?', 'hard', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
-(52, 1, '10 * 10 bằng ?', 'easy', 1, '2025-03-28 16:30:22', '2025-03-28 16:30:22');
+(51, 2, 'Hiện tượng giao thoa ánh sáng chứng tỏ ánh sáng có tính chất gì?', 'hard', 1, '2025-03-28 00:00:00', '2025-03-28 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -336,7 +337,7 @@ CREATE TABLE IF NOT EXISTS `subjects` (
   `subject_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `subjects`
@@ -345,7 +346,12 @@ CREATE TABLE IF NOT EXISTS `subjects` (
 INSERT INTO `subjects` (`subject_id`, `name`) VALUES
 (1, 'Toán'),
 (2, 'Vật lý'),
-(3, 'Lịch sử');
+(3, 'Hoá học'),
+(5, 'Sinh học'),
+(6, 'Lịch sử'),
+(7, 'Địa lý'),
+(8, 'Tin học'),
+(9, 'Ngoại ngữ');
 
 -- --------------------------------------------------------
 
@@ -360,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `subsubjects` (
   `subject_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`subsubjects_id`),
   KEY `subsubjects_subject_id_foreign` (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `subsubjects`
@@ -372,7 +378,25 @@ INSERT INTO `subsubjects` (`subsubjects_id`, `subject_name`, `subject_id`) VALUE
 (3, 'Toán 12', 1),
 (4, 'Vật Lý 10', 2),
 (5, 'Vật Lý 11', 2),
-(6, 'Vật lý 12', 2);
+(6, 'Vật lý 12', 2),
+(8, 'Hoá học 10', 3),
+(9, 'Hoá học 11', 3),
+(10, 'Hoá học 12', 3),
+(11, 'Sinh học 10', 5),
+(12, 'Sinh học 11', 5),
+(13, 'Sinh học 12', 5),
+(14, 'Lịch sử 10', 6),
+(15, 'Lịch sử 11', 6),
+(16, 'Lịch sử 12', 6),
+(17, 'Địa lý 10', 7),
+(18, 'Địa lý 11', 7),
+(19, 'Địa lý 12', 7),
+(20, 'Tin học 10', 8),
+(21, 'Tin học 11', 8),
+(22, 'Tin học 12', 8),
+(23, 'Tiếng anh 10', 9),
+(24, 'Tiếng anh 11', 9),
+(25, 'Tiếng anh 12', 9);
 
 -- --------------------------------------------------------
 
@@ -421,7 +445,8 @@ ALTER TABLE `examquestion`
 -- Các ràng buộc cho bảng `exams`
 --
 ALTER TABLE `exams`
-  ADD CONSTRAINT `exams_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `exams_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `exams_subsubject_id_foreign` FOREIGN KEY (`subsubject_id`) REFERENCES `subsubjects` (`subsubjects_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `questions`

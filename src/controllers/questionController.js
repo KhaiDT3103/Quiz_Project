@@ -107,23 +107,3 @@ exports.deleteQuestion = async (req, res) => {
         res.status(500).json({ message: "Lỗi server", error: error.message || error });
     }
 };
-
-//Sửa câu hỏi
-exports.updateQuestion = async (req, res) => {
-    try {
-        const { question_id } = req.params;
-        const { subject_id, question_text, difficulty } = req.body;
-        const question = await Question.findByPk(question_id);
-        if (!question) {
-            return res.status(404).json({ message: "Không tìm thấy môn học" });
-        }
-        // question.name = name || question.name;
-        question.subject_id = subject_id || question.subject_id;
-        question.question_text = question_text || question.question_text;
-        question.difficulty = difficulty || question.difficulty;
-        await question.save();
-        res.status(200).json({ message: `Câu hỏi đã được cập nhật` });
-    } catch (error) {
-        res.status(500).json({ message: "Lỗi server", error: error.message || error });
-    }
-}
