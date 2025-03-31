@@ -6,29 +6,35 @@ exports.getAllQuestionBySubjectID = async (req, res) => {
     try {
         const { subject_id } = req.params;
 
+        // Kiểm tra xem môn học có tồn tại không
         const subjectExists = await SubSubject.findByPk(subject_id);
         if (!subjectExists) {
             return res.status(404).json({ message: "Không tìm thấy môn học" });
         }
 
-        // Lấy danh sách các câu hỏi thuộc môn học này
-        const questions = await Question.findAll({
+        // Lấy tất cả câu hỏi thuộc môn học, sắp xếp theo độ khó
+        let questions = await Question.findAll({
             include: [{
                 model: Answer,
                 as: "answers",
                 attributes: ["answer_id", "answer_text", "is_correct"],
             }],
             where: { subject_id },
-            order: [
-                [Sequelize.literal("FIELD(difficulty, 'easy', 'medium', 'hard')")]
-            ]
+            order: [[Sequelize.literal("FIELD(difficulty, 'easy', 'medium', 'hard')")]] // Sắp xếp theo độ khó
         });
+
+        // Lấy ngẫu nhiên 20 câu hỏi từ danh sách đã sắp xếp
+        if (questions.length > 20) {
+            questions = questions.sort(() => Math.random() - 0.5).slice(0, 20);
+        }
 
         res.json({ subject: subjectExists.name, questions });
     } catch (error) {
         res.status(500).json({ message: "Lỗi server", error: error.message || error });
     }
 };
+
+
 
 //Thêm câu hỏi kèm câu trả lời
 exports.createQuestion = async (req, res) => {
