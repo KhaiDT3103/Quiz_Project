@@ -16,7 +16,9 @@ module.exports = (sequelize) => {
     Question.associate = (models) => {
         Question.hasMany(models.Answer, {
             foreignKey: "question_id",
-            as: "answers" // Alias này phải khớp với `as` trong include
+            as: "answers",
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
         });
 
     };
