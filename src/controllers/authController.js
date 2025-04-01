@@ -8,8 +8,8 @@ exports.register = async (req, res) => {
         const { username, email, password, role } = req.body;
 
 
-        const existingUsername = await User.findOne({ where: { username } });
-        if (existingUsername) return res.status(400).json({ message: "Username đã tồn tại" });
+        const existingUsername = await User.findOne({ where: { email } });
+        if (existingUsername) return res.status(400).json({ message: "Email đã tồn tại" });
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({
             username,
@@ -27,10 +27,10 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
         // Kiểm tra xem người dùng có tồn tại không
-        const user = await User.findOne({ where: { username } });
+        const user = await User.findOne({ where: { email } });
         if (!user) return res.status(404).json({ message: "Người dùng không tồn tại" });
 
         // Kiểm tra mật khẩu
