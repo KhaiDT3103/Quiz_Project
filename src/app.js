@@ -14,6 +14,7 @@ const subsubjectRoutes = require("./routes/subsubjectRoutes");
 const questionRoutes = require("./routes/questionRoutes");
 const examRoutes = require("./routes/examRoutes");
 const authRoutes = require("./routes/authRoutes");
+const resultRoutes = require("./routes/resultRoutes");
 //api
 app.get("/", (req, res) => {
     res.send("✅server chạy thành công!");
@@ -24,5 +25,5 @@ app.use("/api/subsubjects", subsubjectRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/exams", examRoutes);
 app.use("/api/auth", authRoutes);
-
+app.use("/api/results", resultRoutes);
 module.exports = app;

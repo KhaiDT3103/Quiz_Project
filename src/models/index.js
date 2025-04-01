@@ -8,7 +8,8 @@ const SubSubject = require("./subsubject")(sequelize);
 const Question = require("./question")(sequelize);
 const Answer = require("./answers")(sequelize);
 const Exam = require("./exams")(sequelize);
-const db = { sequelize, User, Subject, SubSubject, Question, Answer, Exam };
+const Result = require("./results")(sequelize);
+const db = { sequelize, User, Subject, SubSubject, Question, Answer, Exam, Result };
 Object.keys(db).forEach((modelName) => {
     if (db[modelName].associate) {
         db[modelName].associate(db);
