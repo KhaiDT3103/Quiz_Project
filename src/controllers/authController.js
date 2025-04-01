@@ -40,7 +40,13 @@ exports.login = async (req, res) => {
         // Tạo token JWT
         const token = jwt.sign({ id: user.user_id, role: user.role }, process.env.AUTH_KEY, { expiresIn: "1h" });
 
-        res.json({ message: "Đăng nhập thành công", token });
+        res.json({
+            message: "Đăng nhập thành công", user: {
+                username: user.username,
+                email: user.email,
+                role: user.role
+            }, token
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Lỗi máy chủ", error });
