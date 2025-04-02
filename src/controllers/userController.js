@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const bcrypt = require("bcryptjs");
 const moment = require("moment-timezone");
 require("dotenv").config();
 //Lấy tất cả user
@@ -53,8 +54,9 @@ exports.updateUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "Không tìm thấy người dùng" });
         }
+        const hashedPassword = await bcrypt.hash(password, 10);
         user.username = username || user.username;
-        user.password = password || user.password;
+        user.password = hashedPassword || user.password;
         user.role = role || user.role;
         user.email = email || user.email;
         user.updatedAt = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss");
