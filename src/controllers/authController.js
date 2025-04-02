@@ -42,6 +42,7 @@ exports.login = async (req, res) => {
 
         res.json({
             message: "Đăng nhập thành công", user: {
+                user_id: user.user_id,
                 username: user.username,
                 email: user.email,
                 role: user.role
