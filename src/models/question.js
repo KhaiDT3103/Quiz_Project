@@ -20,7 +20,11 @@ module.exports = (sequelize) => {
             onDelete: "CASCADE",
             onUpdate: "CASCADE"
         });
-
+        Question.belongsToMany(models.Exam, {
+            through: models.ExamQuestion,
+            foreignKey: "question_id",
+            otherKey: "exam_id"
+        });
     };
     return Question;
 };

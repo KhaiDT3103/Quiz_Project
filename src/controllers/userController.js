@@ -1,6 +1,6 @@
 const { User } = require("../models");
 const moment = require("moment-timezone");
-require("dotenv").config(); // Load biến môi trường từ .env
+require("dotenv").config();
 //Lấy tất cả user
 exports.getAllUsers = async (req, res) => {
     try {
