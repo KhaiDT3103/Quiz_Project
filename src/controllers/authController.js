@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+
 const { Sequelize } = require("sequelize");
 const { User } = require("../models"); // Import model User từ Sequelize
 
@@ -38,7 +38,7 @@ exports.login = async (req, res) => {
         if (!isMatch) return res.status(400).json({ message: "Mật khẩu không đúng" });
 
         // Tạo token JWT
-        const token = jwt.sign({ id: user.user_id, role: user.role }, process.env.AUTH_KEY, { expiresIn: "1h" });
+
 
         res.json({
             message: "Đăng nhập thành công", user: {
@@ -46,7 +46,7 @@ exports.login = async (req, res) => {
                 username: user.username,
                 email: user.email,
                 role: user.role
-            }, token
+            }
         });
     } catch (error) {
         console.error(error);
