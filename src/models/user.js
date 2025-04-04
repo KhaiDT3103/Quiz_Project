@@ -12,6 +12,15 @@ module.exports = (sequelize) => {
         tableName: "users",
         timestamps: true
     });
+    User.associate = (models) => {
+        // Một user có thể tạo nhiều bài thi
+        User.hasMany(models.Exam, {
+            foreignKey: "created_by", // Khóa ngoại trỏ về Exam
+            as: "exams",
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
+        });
+    };
 
     return User;
 };

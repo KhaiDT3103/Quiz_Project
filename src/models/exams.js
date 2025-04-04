@@ -20,6 +20,12 @@ module.exports = (sequelize) => {
             onDelete: "CASCADE",
             onUpdate: "CASCADE"
         });
+        Exam.belongsTo(models.User, {
+            foreignKey: "created_by", // Khóa ngoại liên kết với user_id
+            as: "creator",
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
+        });
         Exam.belongsToMany(models.Question, {
             through: models.ExamQuestion,
             foreignKey: "exam_id",

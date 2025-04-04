@@ -1,7 +1,7 @@
 const { SubSubject, User, Exam, ExamQuestion } = require("../models");
 const { Sequelize } = require("sequelize");
 const moment = require("moment-timezone");
-//Lấy tất cả môn học
+//Get All Exam by subjectID
 exports.getAllExamsBySubjectID = async (req, res) => {
     try {
         const { subsubject_id } = req.params;
@@ -25,13 +25,42 @@ exports.getAllExamsBySubjectID = async (req, res) => {
         res.status(500).json({ message: "Lỗi server👹", error });
     }
 };
+//Get All Exam by user_id
+exports.getAllExamsByUserID = async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        if (!user_id) {
+            return res.status(400).json({ message: "Thiếu mã người dùng👹" });
+        }
+        const exams = await Exam.findAll({
+            where: { created_by: user_id }, // Điều kiện lọc
+            include: [
+                {
+                    model: SubSubject,
+                    as: "subsubject",
+                    attributes: ["subsubjects_id", "subject_name"]
+                },
+                {
+                    model: User,
+                    as: "creator", // Đúng alias đã định nghĩa trong model
+                    attributes: ["user_id", "username", "email"]
+                }
+            ],
+            order: [["createdAt", "DESC"]] // Sắp xếp theo thời gian tạo mới nhất
+        });
+
+        res.json(exams);
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server👹", error });
+    }
+};
 
 exports.createExam = async (req, res) => {
     try {
         const { title, description, time, created_by, subsubject_id, question_ids } = req.body;
 
         if (!title || !description || !time || !created_by || !subsubject_id || !Array.isArray(question_ids)) {
-            return res.status(400).json({ message: "Thiếu thông tin hoặc danh sách câu hỏi không hợp lệ" });
+            return res.status(400).json({ message: "Thiếu thông tin hoặc danh sách câu hỏi không hợp lệ👹" });
         }
 
         // Tạo bài thi
