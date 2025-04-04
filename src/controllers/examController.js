@@ -1,4 +1,4 @@
-const { SubSubject, User, Exam } = require("../models");
+const { SubSubject, User, Exam, ExamQuestion } = require("../models");
 const { Sequelize } = require("sequelize");
 const moment = require("moment-timezone");
 //Lấy tất cả môn học
@@ -28,28 +28,31 @@ exports.getAllExamsBySubjectID = async (req, res) => {
 
 exports.createExam = async (req, res) => {
     try {
-        const { title, description, created_by, subsubject_id } = req.body;
-        if (!title || !description || !created_by || !subsubject_id) {
-            return res.status(400).json({ message: "Thiếu thông tin" });
+        const { title, description, time, created_by, subsubject_id, question_ids } = req.body;
+
+        if (!title || !description || !time || !created_by || !subsubject_id || !Array.isArray(question_ids)) {
+            return res.status(400).json({ message: "Thiếu thông tin hoặc danh sách câu hỏi không hợp lệ" });
         }
 
-        const newExam = await Exam.create({ title, description, created_by, subsubject_id });
-        res.status(201).json({ message: "Bài thi đã được tạo👹", exam: newExam });
+        // Tạo bài thi
+        const newExam = await Exam.create({ title, description, time, created_by, subsubject_id });
+
+        // Tạo danh sách bản ghi liên kết câu hỏi và bài thi
+        const examQuestionData = question_ids.map(qid => ({
+            exam_id: newExam.exam_id,
+            question_id: qid
+        }));
+
+        // Thêm vào bảng examquestion
+        await ExamQuestion.bulkCreate(examQuestionData);
+
+        res.status(201).json({
+            message: "Bài thi đã được tạo và gán câu hỏi thành công 👹",
+            exam: newExam,
+            totalQuestionsLinked: question_ids.length
+        });
+
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server👹", error });
+        res.status(500).json({ message: "Lỗi server 👹", error: error.message || error });
     }
 };
-// try {
-
-//         const { username, password, role } = req.body;
-//         if (!username || !password || !role) {
-//             return res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin" });
-//         }
-//         const createdAt = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss");
-//         const updatedAt = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss");
-
-//         const newUser = await User.create({ username, password, role, createdAt, updatedAt });
-//         res.status(201).json({ message: "Người dùng đã được tạo", user: newUser });
-//     } catch (error) {
-//         res.status(500).json({ message: "Lỗi server", error });
-//     }

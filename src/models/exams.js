@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
         exam_id: { type: DataTypes.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true },
         title: { type: DataTypes.STRING, allowNull: false },
         description: { type: DataTypes.TEXT, allowNull: false },
+        time: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false },
         created_by: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false },
         subsubject_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false }
     }, {
