@@ -1,4 +1,4 @@
-const { SubSubject, User, Exam, ExamQuestion } = require("../models");
+const { SubSubject, User, Exam, ExamQuestion, Question, Answer } = require("../models");
 const { Sequelize } = require("sequelize");
 const moment = require("moment-timezone");
 //Get All Exam by subjectID
@@ -25,6 +25,43 @@ exports.getAllExamsBySubjectID = async (req, res) => {
         res.status(500).json({ message: "Lỗi server👹", error });
     }
 };
+//Get All Exam by subjectID with Question
+exports.getAllExamsBySubjectIDWithQuestion = async (req, res) => {
+    try {
+        const { subsubject_id } = req.params;
+        if (!subsubject_id) {
+            return res.status(400).json({ message: "Thiếu mã môn học👹" });
+        }
+
+        const exams = await Exam.findAll({
+            where: { subsubject_id }, // Lọc theo môn học
+            include: [
+                {
+                    model: SubSubject,
+                    as: "subsubject",
+                    attributes: ["subsubjects_id", "subject_name"]
+                },
+                {
+                    model: Question, // Lấy danh sách câu hỏi
+                    through: { attributes: [] }, // Loại bỏ dữ liệu trung gian của bảng ExamQuestion
+                    include: [
+                        {
+                            model: Answer, // Lấy danh sách câu trả lời
+                            as: "answers",
+                            attributes: ["answer_id", "answer_text", "is_correct"]
+                        }
+                    ]
+                }
+            ],
+            order: [["createdAt", "DESC"]] // Sắp xếp theo thời gian mới nhất
+        });
+
+        res.json(exams);
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server👹", error });
+    }
+};
+
 //Get All Exam by user_id
 exports.getAllExamsByUserID = async (req, res) => {
     try {

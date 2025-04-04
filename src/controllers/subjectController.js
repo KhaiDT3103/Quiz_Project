@@ -6,7 +6,7 @@ exports.getAllSubjects = async (req, res) => {
         const subjects = await Subject.findAll();
         res.json(subjects);
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server", error });
+        res.status(500).json({ message: "Lỗi server👹", error });
     }
 };
 //Lấy tất cả môn học chính và phân lớp
@@ -22,7 +22,7 @@ exports.getAllSubjectsWithSubSubject = async (req, res) => {
 
         res.json(subjects);
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server", error });
+        res.status(500).json({ message: "Lỗi server👹", error });
     }
 };
 //Thêm môn học
@@ -31,13 +31,13 @@ exports.createSubject = async (req, res) => {
 
         const { name } = req.body;
         if (!name) {
-            return res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin" });
+            return res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin👹" });
         }
 
         const newSubject = await Subject.create({ name });
-        res.status(201).json({ message: "Môn học đã được thêm", subject: newSubject });
+        res.status(201).json({ message: "Môn học đã được thêm👹", subject: newSubject });
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server", error });
+        res.status(500).json({ message: "Lỗi server👹", error });
     }
 };
 
@@ -47,12 +47,12 @@ exports.deleteSubject = async (req, res) => {
         const { subject_id } = req.params;
         const subject = await Subject.findByPk(subject_id);
         if (!subject) {
-            return res.status(404).json({ message: "Không tìm thấy môn học" });
+            return res.status(404).json({ message: "Không tìm thấy môn học👹" });
         }
         await subject.destroy();
-        res.status(200).json({ message: `Môn học đã bị xóa` });
+        res.status(200).json({ message: `Môn học đã bị xóa👹` });
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server", error: error.message || error });
+        res.status(500).json({ message: "Lỗi server👹", error: error.message || error });
     }
 }
 
@@ -63,13 +63,13 @@ exports.updateSubject = async (req, res) => {
         const { name } = req.body;
         const subject = await Subject.findByPk(subject_id);
         if (!subject) {
-            return res.status(404).json({ message: "Không tìm thấy môn học" });
+            return res.status(404).json({ message: "Không tìm thấy môn học👹" });
         }
         subject.name = name || subject.name;
 
         await subject.save();
-        res.status(200).json({ message: `Môn học đã được cập nhật` });
+        res.status(200).json({ message: `Môn học đã được cập nhật👹` });
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server", error: error.message || error });
+        res.status(500).json({ message: "Lỗi server👹", error: error.message || error });
     }
 }

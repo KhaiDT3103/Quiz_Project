@@ -9,7 +9,7 @@ exports.getAllQuestionBySubjectID = async (req, res) => {
         // Kiểm tra xem môn học có tồn tại không
         const subjectExists = await SubSubject.findByPk(subject_id);
         if (!subjectExists) {
-            return res.status(404).json({ message: "Không tìm thấy môn học" });
+            return res.status(404).json({ message: "Không tìm thấy môn học👹" });
         }
 
         // Lấy tất cả câu hỏi thuộc môn học, sắp xếp theo độ khó
@@ -43,19 +43,19 @@ exports.createQuestion = async (req, res) => {
 
         // Kiểm tra dữ liệu đầu vào
         if (!subject_id || !question_text || !difficulty || !created_by || !answers || !Array.isArray(answers) || answers.length === 0) {
-            return res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin, bao gồm danh sách câu trả lời" });
+            return res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin, bao gồm danh sách câu trả lời👹" });
         }
 
         // Kiểm tra xem môn học có tồn tại không
         const subjectExists = await SubSubject.findByPk(subject_id);
         if (!subjectExists) {
-            return res.status(404).json({ message: "Không tìm thấy môn học" });
+            return res.status(404).json({ message: "Không tìm thấy môn học👹" });
         }
 
         // Kiểm tra xem user có tồn tại không
         const userExists = await User.findByPk(created_by);
         if (!userExists) {
-            return res.status(404).json({ message: "Không tồn tại user này" });
+            return res.status(404).json({ message: "Không tồn tại user này👹" });
         }
 
         // Lấy thời gian hiện tại
@@ -83,7 +83,7 @@ exports.createQuestion = async (req, res) => {
 
         // Trả về kết quả
         res.status(201).json({
-            message: "Câu hỏi và câu trả lời đã được thêm thành công",
+            message: "Câu hỏi và câu trả lời đã được thêm thành công👹",
             question: newQuestion,
             answers: answersData
         });
@@ -99,7 +99,7 @@ exports.deleteQuestion = async (req, res) => {
         // Kiểm tra xem câu hỏi có tồn tại không
         const question = await Question.findByPk(question_id);
         if (!question) {
-            return res.status(404).json({ message: "Không tìm thấy câu hỏi" });
+            return res.status(404).json({ message: "Không tìm thấy câu hỏi👹" });
         }
 
         // Xóa tất cả câu trả lời của câu hỏi này
@@ -108,8 +108,8 @@ exports.deleteQuestion = async (req, res) => {
         // Sau khi xóa câu trả lời, xóa câu hỏi
         await question.destroy();
 
-        res.status(200).json({ message: `Câu hỏi và các câu trả lời liên quan đã bị xóa` });
+        res.status(200).json({ message: `Câu hỏi và các câu trả lời liên quan đã bị xóa👹` });
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server", error: error.message || error });
+        res.status(500).json({ message: "Lỗi server👹", error: error.message || error });
     }
 };
