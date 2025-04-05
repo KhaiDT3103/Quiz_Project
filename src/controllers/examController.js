@@ -81,6 +81,17 @@ exports.getAllExamsByUserID = async (req, res) => {
                     model: User,
                     as: "creator", // Đúng alias đã định nghĩa trong model
                     attributes: ["user_id", "username", "email"]
+                },
+                {
+                    model: Question,
+                    through: { attributes: [] }, // Không lấy dữ liệu từ bảng trung gian
+                    include: [
+                        {
+                            model: Answer,
+                            as: "answers",
+                            attributes: ["answer_id", "answer_text", "is_correct"]
+                        }
+                    ]
                 }
             ],
             order: [["createdAt", "DESC"]] // Sắp xếp theo thời gian tạo mới nhất
