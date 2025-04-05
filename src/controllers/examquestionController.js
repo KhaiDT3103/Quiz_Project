@@ -31,3 +31,22 @@ exports.getAllQuestionByExamsID = async (req, res) => {
         res.status(500).json({ message: "Lỗi server👹", error: error.message || error });
     }
 };
+
+exports.deleteAllQuestionsFromExam = async (req, res) => {
+    try {
+        const { exam_id } = req.params;
+
+        if (!exam_id) {
+            return res.status(400).json({ message: "Thiếu mã bài thi 👹" });
+        }
+
+        // Xóa tất cả bản ghi liên kết giữa exam và question trong bảng trung gian
+        const deleted = await ExamQuestion.destroy({
+            where: { exam_id }
+        });
+
+        res.json({ message: "Đã xóa tất cả câu hỏi khỏi bài thi", deleted });
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server 👹", error: error.message || error });
+    }
+};
