@@ -133,3 +133,31 @@ exports.createExam = async (req, res) => {
         res.status(500).json({ message: "Lỗi server 👹", error: error.message || error });
     }
 };
+
+exports.deleteExamWithQuestions = async (req, res) => {
+    try {
+        const { exam_id } = req.params;
+
+        if (!exam_id) {
+            return res.status(400).json({ message: "Thiếu mã bài thi 👹" });
+        }
+
+        // Xóa tất cả liên kết câu hỏi của exam trong bảng trung gian
+        await ExamQuestion.destroy({
+            where: { exam_id }
+        });
+
+        // Xóa bài thi
+        const deleted = await Exam.destroy({
+            where: { exam_id }
+        });
+
+        if (deleted === 0) {
+            return res.status(404).json({ message: "Không tìm thấy bài thi để xóa 👹" });
+        }
+
+        res.json({ message: "Đã xóa bài thi 👹" });
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server 👹", error: error.message || error });
+    }
+};
