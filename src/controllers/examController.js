@@ -139,7 +139,7 @@ exports.deleteExamWithQuestions = async (req, res) => {
         const { exam_id } = req.params;
 
         if (!exam_id) {
-            return res.status(400).json({ message: "Thiếu mã bài thi 👹" });
+            return res.status(400).json({ message: "Thiếu mã bài thi 👹", deleted: false });
         }
 
         // Xóa tất cả liên kết câu hỏi của exam trong bảng trung gian
@@ -153,11 +153,12 @@ exports.deleteExamWithQuestions = async (req, res) => {
         });
 
         if (deleted === 0) {
-            return res.status(404).json({ message: "Không tìm thấy bài thi để xóa 👹" });
+            return res.status(404).json({ message: "Không tìm thấy bài thi để xóa 👹", deleted: false });
         }
 
-        res.json({ message: "Đã xóa bài thi 👹" });
+        res.json({ message: "Đã xóa bài thi 👹", deleted: true });
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server 👹", error: error.message || error });
+        res.status(500).json({ message: "Lỗi server 👹", error: error.message || error, deleted: false });
     }
 };
+
