@@ -23,10 +23,6 @@ exports.getAllQuestionBySubjectID = async (req, res) => {
             order: [[Sequelize.literal("FIELD(difficulty, 'easy', 'medium', 'hard')")]] // Sắp xếp theo độ khó
         });
 
-        // Lấy ngẫu nhiên 20 câu hỏi từ danh sách đã sắp xếp
-        if (questions.length > 20) {
-            questions = questions.sort(() => Math.random() - 0.5).slice(0, 20);
-        }
 
         res.json({ subject: subjectExists.name, questions });
     } catch (error) {
