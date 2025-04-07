@@ -28,6 +28,7 @@ module.exports = (sequelize) => {
         });
         Exam.belongsToMany(models.Question, {
             through: models.ExamQuestion,
+            as: "question",
             foreignKey: "exam_id",
             otherKey: "question_id"
         });
