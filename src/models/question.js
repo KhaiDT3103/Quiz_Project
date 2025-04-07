@@ -25,6 +25,10 @@ module.exports = (sequelize) => {
             foreignKey: "question_id",
             otherKey: "exam_id"
         });
+        Question.hasMany(models.ExamHistoryAns, {
+            foreignKey: 'question_id',
+            as: "examhisans"
+        });
     };
     return Question;
 };

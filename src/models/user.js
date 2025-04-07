@@ -20,6 +20,10 @@ module.exports = (sequelize) => {
             onDelete: "CASCADE",
             onUpdate: "CASCADE"
         });
+        User.hasMany(models.ExamHistories, {
+            foreignKey: "user_id",
+            as: "examHistories"
+        });
     };
 
     return User;

@@ -18,6 +18,10 @@ module.exports = (sequelize) => {
             foreignKey: "question_id",
             as: "question"
         });
+        Answer.hasMany(models.ExamHistoryAns, {
+            foreignKey: 'selected_answer_id',
+            as: "examhisans"
+        });
     };
     return Answer;
 };
