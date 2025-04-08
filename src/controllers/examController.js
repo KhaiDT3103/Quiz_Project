@@ -86,6 +86,7 @@ exports.getAllExamsByUserID = async (req, res) => {
                 },
                 {
                     model: Question,
+                    as: "question",
                     through: { attributes: [] }, // Không lấy dữ liệu từ bảng trung gian
                     include: [
                         {
