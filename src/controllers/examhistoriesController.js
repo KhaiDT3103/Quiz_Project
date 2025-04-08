@@ -51,7 +51,7 @@ exports.getHisUserByHisID = async (req, res) => {
                     include: {
                         model: Answer,
                         as: "answers",
-                        attributes: ["answer_id", "answer_text"]
+                        attributes: ["answer_id", "answer_text", "is_correct"]
                     }
                 }
             }
@@ -69,7 +69,8 @@ exports.getHisUserByHisID = async (req, res) => {
 
         const selectedMap = {};
         selectedAnswers.forEach(ans => {
-            selectedMap[ans.question_id] = ans.selected_answer_id;
+            selectedMap[Number(ans.question_id)] = Number(ans.selected_answer_id);
+
         });
 
         // Xử lý cấu trúc dữ liệu trả về
@@ -79,7 +80,9 @@ exports.getHisUserByHisID = async (req, res) => {
             answers: q.answers.map(a => ({
                 answer_id: a.answer_id,
                 answer_text: a.answer_text,
-                selected_answer: selectedMap[q.question_id] === a.answer_id
+                is_correct: a.is_correct,
+                selected_answer: selectedMap[Number(q.question_id)] === Number(a.answer_id)
+
             }))
         }));
 

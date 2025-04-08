@@ -1,6 +1,7 @@
 const { SubSubject, User, Exam, ExamQuestion, Question, Answer } = require("../models");
 const { Sequelize } = require("sequelize");
 const moment = require("moment-timezone");
+const question = require("../models/question");
 //Get All Exam by subjectID
 exports.getAllExamsBySubjectID = async (req, res) => {
     try {
@@ -42,7 +43,8 @@ exports.getAllExamsBySubjectIDWithQuestion = async (req, res) => {
                     attributes: ["subsubjects_id", "subject_name"]
                 },
                 {
-                    model: Question, // Lấy danh sách câu hỏi
+                    model: Question,
+                    as: "question", // Lấy danh sách câu hỏi
                     through: { attributes: [] }, // Loại bỏ dữ liệu trung gian của bảng ExamQuestion
                     include: [
                         {

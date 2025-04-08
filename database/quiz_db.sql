@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th4 05, 2025 lúc 01:44 PM
+-- Thời gian đã tạo: Th4 07, 2025 lúc 02:35 PM
 -- Phiên bản máy phục vụ: 9.1.0
 -- Phiên bản PHP: 8.3.14
 
@@ -31,13 +31,13 @@ DROP TABLE IF EXISTS `answers`;
 CREATE TABLE IF NOT EXISTS `answers` (
   `answer_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `question_id` int UNSIGNED NOT NULL,
-  `answer_text` text NOT NULL,
+  `answer_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `is_correct` tinyint NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`answer_id`),
   KEY `answers_question_id_foreign` (`question_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=416 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=464 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `answers`
@@ -164,10 +164,58 @@ INSERT INTO `answers` (`answer_id`, `question_id`, `answer_text`, `is_correct`, 
 (409, 30, '8', 0, '2025-03-31 17:47:57', '2025-03-31 17:47:57'),
 (410, 30, '2', 0, '2025-03-31 17:47:57', '2025-03-31 17:47:57'),
 (411, 30, '-4', 0, '2025-03-31 17:47:57', '2025-03-31 17:47:57'),
-(412, 31, 'Canxi (Ca)', 1, '2025-04-02 15:08:44', '2025-04-02 15:08:44'),
-(413, 31, 'Oxi (O)', 0, '2025-04-02 15:08:44', '2025-04-02 15:08:44'),
-(414, 31, 'Nhôm (Al)', 0, '2025-04-02 15:08:44', '2025-04-02 15:08:44'),
-(415, 31, 'Lưu huỳnh (S)', 0, '2025-04-02 15:08:44', '2025-04-02 15:08:44');
+(412, 31, 'Canxi (Ca)', 1, '2025-04-02 15:03:17', '2025-04-02 15:03:17'),
+(413, 31, 'Oxi (O)', 0, '2025-04-02 15:03:17', '2025-04-02 15:03:17'),
+(414, 31, 'Nhôm (Al)', 0, '2025-04-02 15:03:17', '2025-04-02 15:03:17'),
+(415, 31, 'Lưu huỳnh (S)', 0, '2025-04-02 15:03:17', '2025-04-02 15:03:17'),
+(416, 32, 'x=2 và x=3', 1, '2025-04-03 04:15:29', '2025-04-03 04:15:29'),
+(417, 32, 'x=2 và x=-3', 0, '2025-04-03 04:15:29', '2025-04-03 04:15:29'),
+(418, 32, 'x=-2 và x=3', 0, '2025-04-03 04:15:29', '2025-04-03 04:15:29'),
+(419, 32, 'x=-2 và x=-3', 0, '2025-04-03 04:15:29', '2025-04-03 04:15:29'),
+(420, 33, 'Khi chúng có cùng độ dài', 0, '2025-04-03 04:19:22', '2025-04-03 04:19:22'),
+(421, 33, 'Khi chúng có cùng hướng', 0, '2025-04-03 04:19:22', '2025-04-03 04:19:22'),
+(422, 33, 'x=2 và x=-3Khi tồn tại một số thực k sao cho u = k.v', 1, '2025-04-03 04:19:22', '2025-04-03 04:19:22'),
+(423, 33, 'Khi tích vô hướng của chúng bằng 0', 0, '2025-04-03 04:19:22', '2025-04-03 04:19:22'),
+(424, 34, '19/8/1945', 1, '2025-04-03 04:33:22', '2025-04-03 04:33:22'),
+(425, 34, '2/9/1945', 0, '2025-04-03 04:33:22', '2025-04-03 04:33:22'),
+(426, 34, '9/3/1945', 0, '2025-04-03 04:33:22', '2025-04-03 04:33:22'),
+(427, 34, '14/4/1946', 0, '2025-04-03 04:33:22', '2025-04-03 04:33:22'),
+(428, 35, 'Chiến thắng Điện Biên Phủ (1954)', 1, '2025-04-03 04:37:17', '2025-04-03 04:37:17'),
+(429, 35, 'Chiến dịch Biên giới (1950)', 0, '2025-04-03 04:37:17', '2025-04-03 04:37:17'),
+(430, 35, 'Cách mạng tháng Tám (1945)', 0, '2025-04-03 04:37:17', '2025-04-03 04:37:17'),
+(431, 35, 'Hội nghị Genève (1954)', 0, '2025-04-03 04:37:17', '2025-04-03 04:37:17'),
+(432, 36, 'Nông nghiệp', 0, '2025-04-03 04:42:11', '2025-04-03 04:42:11'),
+(433, 36, 'Công nghiệp nặng', 0, '2025-04-03 04:42:11', '2025-04-03 04:42:11'),
+(434, 36, 'Công nghiệp chế biến', 0, '2025-04-03 04:42:11', '2025-04-03 04:42:11'),
+(435, 36, 'Công nghiệp công nghệ cao', 1, '2025-04-03 04:42:11', '2025-04-03 04:42:11'),
+(436, 38, '2', 0, '2025-04-05 03:27:08', '2025-04-05 03:27:08'),
+(437, 38, '2', 0, '2025-04-05 03:27:08', '2025-04-05 03:27:08'),
+(438, 38, '2', 0, '2025-04-05 03:27:08', '2025-04-05 03:27:08'),
+(439, 38, '2', 0, '2025-04-05 03:27:08', '2025-04-05 03:27:08'),
+(440, 39, '1', 0, '2025-04-05 14:02:17', '2025-04-05 14:02:17'),
+(441, 39, '1', 0, '2025-04-05 14:02:17', '2025-04-05 14:02:17'),
+(442, 39, '1', 1, '2025-04-05 14:02:17', '2025-04-05 14:02:17'),
+(443, 39, '1', 0, '2025-04-05 14:02:17', '2025-04-05 14:02:17'),
+(444, 40, '2', 0, '2025-04-06 02:52:08', '2025-04-06 02:52:08'),
+(445, 40, '2', 0, '2025-04-06 02:52:08', '2025-04-06 02:52:08'),
+(446, 40, '2', 1, '2025-04-06 02:52:08', '2025-04-06 02:52:08'),
+(447, 40, '2', 0, '2025-04-06 02:52:08', '2025-04-06 02:52:08'),
+(448, 41, '3', 0, '2025-04-06 02:52:19', '2025-04-06 02:52:19'),
+(449, 41, '3', 0, '2025-04-06 02:52:19', '2025-04-06 02:52:19'),
+(450, 41, '3', 1, '2025-04-06 02:52:19', '2025-04-06 02:52:19'),
+(451, 41, '3', 0, '2025-04-06 02:52:19', '2025-04-06 02:52:19'),
+(452, 42, '4', 0, '2025-04-06 02:52:29', '2025-04-06 02:52:29'),
+(453, 42, '4', 0, '2025-04-06 02:52:29', '2025-04-06 02:52:29'),
+(454, 42, '4', 0, '2025-04-06 02:52:29', '2025-04-06 02:52:29'),
+(455, 42, '4', 1, '2025-04-06 02:52:29', '2025-04-06 02:52:29'),
+(456, 43, '1', 0, '2025-04-06 02:59:43', '2025-04-06 02:59:43'),
+(457, 43, '1', 0, '2025-04-06 02:59:43', '2025-04-06 02:59:43'),
+(458, 43, '1', 1, '2025-04-06 02:59:43', '2025-04-06 02:59:43'),
+(459, 43, '1', 0, '2025-04-06 02:59:43', '2025-04-06 02:59:43'),
+(460, 44, 'ư', 0, '2025-04-06 03:00:13', '2025-04-06 03:00:13'),
+(461, 44, 'ư', 0, '2025-04-06 03:00:13', '2025-04-06 03:00:13'),
+(462, 44, 'ư', 1, '2025-04-06 03:00:13', '2025-04-06 03:00:13'),
+(463, 44, 'ư', 0, '2025-04-06 03:00:13', '2025-04-06 03:00:13');
 
 -- --------------------------------------------------------
 
@@ -181,7 +229,39 @@ CREATE TABLE IF NOT EXISTS `examquestion` (
   `question_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`question_id`,`exam_id`),
   KEY `examquestion_exam_id_foreign` (`exam_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `examquestion`
+--
+
+INSERT INTO `examquestion` (`exam_id`, `question_id`) VALUES
+(29, 1),
+(29, 2),
+(29, 4),
+(29, 5),
+(29, 8),
+(29, 9),
+(29, 10),
+(29, 11),
+(29, 13),
+(29, 14),
+(29, 15),
+(29, 16),
+(29, 17),
+(29, 19),
+(29, 20),
+(29, 22),
+(29, 23),
+(29, 25),
+(29, 26),
+(29, 27),
+(29, 28),
+(29, 29),
+(29, 30),
+(29, 32),
+(29, 33),
+(30, 11);
 
 -- --------------------------------------------------------
 
@@ -192,27 +272,87 @@ CREATE TABLE IF NOT EXISTS `examquestion` (
 DROP TABLE IF EXISTS `exams`;
 CREATE TABLE IF NOT EXISTS `exams` (
   `exam_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `time` int UNSIGNED NOT NULL DEFAULT '60',
   `created_by` int UNSIGNED NOT NULL,
   `subsubject_id` int UNSIGNED NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`exam_id`),
-  KEY `exams_created_by_foreign` (`created_by`),
-  KEY `exams_subsubject_id_foreign` (`subsubject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `exams_created_by_foreign` (`created_by`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `exams`
 --
 
 INSERT INTO `exams` (`exam_id`, `title`, `description`, `time`, `created_by`, `subsubject_id`, `createdAt`, `updatedAt`) VALUES
-(2, 'Đề thi thử Toán 12', 'Đề thi thử THPT Quốc gia môn Toán', 60, 1, 3, '2025-03-27 00:00:00', '2025-03-27 00:00:00'),
-(3, 'Kiểm tra Vật lý 11 - Chương 1', 'Đề kiểm tra 45 phút môn Vật lý lớp 11', 60, 1, 5, '2025-03-27 00:00:00', '2025-03-27 00:00:00'),
-(4, 'Đề kiểm tra Vật lý 10 - Chương 1', 'Đề kiểm tra 45 phút môn Vật lý lớp 10', 60, 1, 4, '2025-03-28 00:00:00', '2025-03-28 00:00:00'),
-(5, 'Đề thi thử Vật lý 12', 'Đề thi thử THPT Quốc gia môn Vật lý', 60, 1, 6, '2025-03-28 00:00:00', '2025-03-28 00:00:00');
+(29, 'Bài thi cuối kỳ toán 10 ', 'Gồn 25 câu trắc nghiệp', 45, 1, 1, '2025-04-06 05:42:30', '2025-04-06 05:42:30'),
+(30, 'bài thi để test', '1 cau hỏi', 116, 1, 1, '2025-04-06 06:36:23', '2025-04-06 06:36:23');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `exam_histories`
+--
+
+DROP TABLE IF EXISTS `exam_histories`;
+CREATE TABLE IF NOT EXISTS `exam_histories` (
+  `history_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `exam_id` int UNSIGNED NOT NULL,
+  `user_id` int UNSIGNED NOT NULL,
+  `score` float NOT NULL,
+  `started_at` datetime NOT NULL,
+  `finished_at` datetime NOT NULL,
+  `total_time` int UNSIGNED NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`history_id`),
+  KEY `exam_id` (`exam_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `exam_histories`
+--
+
+INSERT INTO `exam_histories` (`history_id`, `exam_id`, `user_id`, `score`, `started_at`, `finished_at`, `total_time`, `createdAt`, `updatedAt`) VALUES
+(1, 29, 6, 85.5, '2025-04-07 10:00:00', '2025-04-07 10:30:00', 1800, '2025-04-07 13:33:19', '2025-04-07 13:33:19');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `exam_history_answers`
+--
+
+DROP TABLE IF EXISTS `exam_history_answers`;
+CREATE TABLE IF NOT EXISTS `exam_history_answers` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `history_id` int UNSIGNED NOT NULL,
+  `question_id` int UNSIGNED NOT NULL,
+  `selected_answer_id` int UNSIGNED DEFAULT NULL,
+  `is_correct` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `history_id` (`history_id`),
+  KEY `question_id` (`question_id`),
+  KEY `selected_answer_id` (`selected_answer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `exam_history_answers`
+--
+
+INSERT INTO `exam_history_answers` (`id`, `history_id`, `question_id`, `selected_answer_id`, `is_correct`) VALUES
+(28, 1, 1, 292, 1),
+(29, 1, 2, 293, 0),
+(30, 1, 3, 294, 1),
+(31, 1, 4, 295, 0),
+(32, 1, 5, 296, 1),
+(33, 1, 6, 297, 0),
+(34, 1, 7, 298, 1),
+(35, 1, 8, 299, 0),
+(36, 1, 9, 300, 1);
 
 -- --------------------------------------------------------
 
@@ -224,15 +364,15 @@ DROP TABLE IF EXISTS `questions`;
 CREATE TABLE IF NOT EXISTS `questions` (
   `question_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `subject_id` int UNSIGNED NOT NULL,
-  `question_text` text NOT NULL,
-  `difficulty` enum('easy','medium','hard') NOT NULL,
+  `question_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `difficulty` enum('easy','medium','hard') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_by` int UNSIGNED NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`question_id`),
   KEY `questions_created_by_foreign` (`created_by`),
   KEY `questions_subject_id_foreign` (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `questions`
@@ -269,7 +409,20 @@ INSERT INTO `questions` (`question_id`, `subject_id`, `question_text`, `difficul
 (28, 1, 'Phép chiếu vuông góc là gì?', 'medium', 1, '2025-03-31 17:47:56', '2025-03-31 17:47:56'),
 (29, 1, 'Đạo hàm của y = e^x là gì?', 'easy', 1, '2025-03-31 17:47:56', '2025-03-31 17:47:56'),
 (30, 1, 'Căn bậc hai của 16 là gì?', 'medium', 1, '2025-03-31 17:47:56', '2025-03-31 17:47:56'),
-(31, 8, 'Nguyên tử nào sau đây có số proton nhiều nhất?', 'medium', 1, '2025-04-02 15:08:44', '2025-04-02 15:08:44');
+(31, 8, 'Nguyên tử nào sau đây có số proton nhiều nhất?', 'medium', 1, '2025-04-02 22:03:17', '2025-04-02 15:03:17'),
+(32, 1, 'x^2 − 5x + 6 = 0', 'easy', 1, '2025-04-03 11:15:28', '2025-04-03 04:15:28'),
+(33, 1, 'Cho hai vectơ u và v. Khi nào thì hai vectơ được gọi là cùng phương?', 'medium', 1, '2025-04-03 11:19:22', '2025-04-03 04:19:22'),
+(34, 14, 'Cuộc Cách mạng tháng Tám 1945 ở Việt Nam diễn ra vào thời gian nào?', 'easy', 1, '2025-04-03 11:33:22', '2025-04-03 04:33:22'),
+(35, 14, 'Trong cuộc kháng chiến chống Pháp (1946 - 1954), sự kiện nào đánh dấu bước ngoặt quan trọng trong cuộc chiến tranh nhân dân của Việt Nam?', 'hard', 1, '2025-04-03 11:37:17', '2025-04-03 04:37:17'),
+(36, 17, 'Quá trình công nghiệp hóa, hiện đại hóa ở các nước phát triển chủ yếu diễn ra ở lĩnh vực nào?', 'hard', 1, '2025-04-03 11:42:11', '2025-04-03 04:42:11'),
+(37, 12, 'ư', 'medium', 1, '2025-04-05 10:23:31', '2025-04-05 03:23:31'),
+(38, 4, '1', 'medium', 1, '2025-04-05 10:27:08', '2025-04-05 03:27:08'),
+(39, 23, '1', 'easy', 1, '2025-04-05 21:02:17', '2025-04-05 14:02:17'),
+(40, 4, '2', 'medium', 1, '2025-04-06 09:52:08', '2025-04-06 02:52:08'),
+(41, 4, '3', 'easy', 1, '2025-04-06 09:52:19', '2025-04-06 02:52:19'),
+(42, 4, '4', 'hard', 1, '2025-04-06 09:52:29', '2025-04-06 02:52:29'),
+(43, 1, 'q111', 'easy', 1, '2025-04-06 09:59:43', '2025-04-06 02:59:43'),
+(44, 1, 'ư', 'medium', 1, '2025-04-06 10:00:13', '2025-04-06 03:00:13');
 
 -- --------------------------------------------------------
 
@@ -287,7 +440,7 @@ CREATE TABLE IF NOT EXISTS `results` (
   PRIMARY KEY (`result_id`),
   KEY `results_exam_id_foreign` (`exam_id`),
   KEY `results_user_id_foreign` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -298,9 +451,9 @@ CREATE TABLE IF NOT EXISTS `results` (
 DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE IF NOT EXISTS `subjects` (
   `subject_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `subjects`
@@ -325,11 +478,11 @@ INSERT INTO `subjects` (`subject_id`, `name`) VALUES
 DROP TABLE IF EXISTS `subsubjects`;
 CREATE TABLE IF NOT EXISTS `subsubjects` (
   `subsubjects_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `subject_name` varchar(255) NOT NULL,
+  `subject_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `subject_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`subsubjects_id`),
   KEY `subsubjects_subject_id_foreign` (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `subsubjects`
@@ -370,23 +523,24 @@ INSERT INTO `subsubjects` (`subsubjects_id`, `subject_name`, `subject_id`) VALUE
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('student','teacher','admin') NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('student','teacher','admin') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `createdAt`, `updatedAt`, `email`) VALUES
-(1, 'teacher1', '$2b$10$5flUjHj7OLSOm3G2dcYvIu6c6WMDIPtYWa/HI513Sdu3/JFBbNFgW', 'teacher', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'teacher1@example.com'),
-(6, 'khai dep trai', '$2b$10$5flUjHj7OLSOm3G2dcYvIu6c6WMDIPtYWa/HI513Sdu3/JFBbNFgW', 'student', '2025-03-28 04:02:12', '2025-03-28 04:02:28', 'genjisss3103@gmail.com'),
-(8, 'khai', '$2b$10$J3rZA14wY27SKTEw6Xg8UOdQjRWKwZtd13Lvr7LqmS5mp6iJiCJVi', 'student', '2025-04-01 11:53:52', '2025-04-02 15:44:00', 'abc@gmail.com');
+(1, 'teacher1', '$2b$10$2Js.oX0i6y5y4cBuspRs9eAtWV4B.ijxEPYtzprLnr2mh0wuJHSt.', 'teacher', '0000-00-00 00:00:00', '2025-04-03 05:24:59', 'teacher1@example.com'),
+(6, 'khai dep trai', '$2b$10$2Js.oX0i6y5y4cBuspRs9eAtWV4B.ijxEPYtzprLnr2mh0wuJHSt.', 'student', '2025-03-28 04:02:12', '2025-03-28 04:02:28', 'genjisss3103@gmail.com'),
+(10, 'khai dep trai3', '$2b$10$Z5tV.D0f1O8ZAowdMpaT8OKYMQNs6Mbiw.mNWovRYrt10pMBdke5S', 'student', '2025-04-01 12:35:05', '2025-04-03 05:02:22', 'def@gmail.com'),
+(11, 'Huy', '$2b$10$F9K8VyCNQO0NG5Y8HaiGEuZ.uPcI9E7ZNa3OiAxdup2hxjXdaSOku', 'student', '2025-04-02 07:43:14', '2025-04-03 05:05:52', 'quanghuylhpq@gmail.com');
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -409,8 +563,22 @@ ALTER TABLE `examquestion`
 -- Các ràng buộc cho bảng `exams`
 --
 ALTER TABLE `exams`
-  ADD CONSTRAINT `exams_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `exams_subsubject_id_foreign` FOREIGN KEY (`subsubject_id`) REFERENCES `subsubjects` (`subsubjects_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `exams_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`user_id`);
+
+--
+-- Các ràng buộc cho bảng `exam_histories`
+--
+ALTER TABLE `exam_histories`
+  ADD CONSTRAINT `exam_histories_ibfk_1` FOREIGN KEY (`exam_id`) REFERENCES `exams` (`exam_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `exam_histories_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `exam_history_answers`
+--
+ALTER TABLE `exam_history_answers`
+  ADD CONSTRAINT `exam_history_answers_ibfk_1` FOREIGN KEY (`history_id`) REFERENCES `exam_histories` (`history_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `exam_history_answers_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`question_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `exam_history_answers_ibfk_3` FOREIGN KEY (`selected_answer_id`) REFERENCES `answers` (`answer_id`) ON DELETE SET NULL;
 
 --
 -- Các ràng buộc cho bảng `questions`
