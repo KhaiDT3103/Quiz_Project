@@ -99,3 +99,72 @@ exports.getHisUserByHisID = async (req, res) => {
         res.status(500).json({ message: "Lỗi server👹", error: error.message });
     }
 };
+
+//Nộp bài thi
+exports.submitExam = async (req, res) => {
+    try {
+        const { user_id, exam_id, answers, started_at, finished_at } = req.body;
+
+        if (!user_id || !exam_id || !answers || !Array.isArray(answers) || !started_at || !finished_at) {
+            return res.status(400).json({ message: "Thiếu dữ liệu đầu vào 👹" });
+        }
+
+        // Tính thời gian làm bài (đơn vị: giây)
+        const total_time = Math.floor((new Date(finished_at) - new Date(started_at)) / 1000);
+
+        // Kiểm tra số câu đúng
+        let correctCount = 0;
+        let total = 0;
+
+        const answerRecords = await Promise.all(
+            answers.map(async ({ question_id, selected_answer_id }) => {
+                const answer = await Answer.findOne({
+                    where: {
+                        answer_id: selected_answer_id,
+                        question_id: question_id
+                    }
+                });
+                total++;
+                const isCorrect = answer ? answer.is_correct : false;
+                if (isCorrect) correctCount++;
+
+                return {
+                    question_id,
+                    selected_answer_id,
+                    is_correct: isCorrect
+                };
+            })
+        );
+        let score = (10 / total) * correctCount;
+        // Tạo lịch sử thi
+        const history = await ExamHistories.create({
+            exam_id,
+            user_id,
+            score: score,
+            started_at,
+            finished_at,
+            total_time
+        });
+
+        // Gắn thêm history_id rồi lưu vào ExamHistoryAns
+        const answersWithHistoryID = answerRecords.map(ans => ({
+            ...ans,
+            history_id: history.history_id
+        }));
+
+        await ExamHistoryAns.bulkCreate(answersWithHistoryID);
+
+        return res.status(200).json({
+            message: "Nộp bài thành công ✅",
+            history_id: history.history_id,
+            score: score,
+            total_questions: answers.length,
+            total_time
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Lỗi server 👹", error: error.message });
+    }
+};
+
