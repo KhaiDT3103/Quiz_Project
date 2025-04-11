@@ -105,7 +105,7 @@ exports.getAllExamsByUserID = async (req, res) => {
         res.status(500).json({ message: "Lỗi server👹", error });
     }
 };
-
+//s
 exports.createExam = async (req, res) => {
     try {
         const { title, description, time, created_by, subsubject_id, question_ids } = req.body;
@@ -202,6 +202,7 @@ exports.getExamByID = async (req, res) => {
     }
 };
 
+//Sửa bài thi
 exports.updateExamAndQuestions = async (req, res) => {
     try {
         const { exam_id } = req.params;
@@ -250,9 +251,9 @@ exports.updateExamAndQuestions = async (req, res) => {
             }
         }
 
-        res.json({ message: "Cập nhật bài thi thành công ✅" });
+        res.json({ message: "Cập nhật bài thi thành công 👹", status: true });
 
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server 👹", error: error.message });
+        res.status(500).json({ message: "Lỗi server 👹", error: error.message, status: false });
     }
 };
