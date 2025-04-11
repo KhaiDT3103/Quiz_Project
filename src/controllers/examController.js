@@ -165,3 +165,94 @@ exports.deleteExamWithQuestions = async (req, res) => {
     }
 };
 
+//Lấy dữ liệu một bài thi bằng exam id
+exports.getExamByID = async (req, res) => {
+    try {
+        const { exam_id } = req.params;
+        if (!exam_id) {
+            return res.status(400).json({ message: "Thiếu mã bài thi 👹" });
+        }
+
+        const exam = await Exam.findOne({
+            where: { exam_id },
+            attributes: ["exam_id", "title", "description"],
+            include:
+            {
+                model: Question,
+                as: "question", // alias trong model Exam
+                attributes: ["question_id", "question_text"],
+                through: { attributes: [] },
+                include:
+                {
+                    model: Answer,
+                    as: "answers", // alias trong model Question
+                    attributes: ["answer_id", "answer_text", "is_correct"]
+                }
+            }
+
+        });
+
+        if (!exam) {
+            return res.status(404).json({ message: "Không tìm thấy bài thi 👹" });
+        }
+
+        res.json(exam);
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server👹", error: error.message });
+    }
+};
+
+exports.updateExamAndQuestions = async (req, res) => {
+    try {
+        const { exam_id } = req.params;
+        const { title, description, questions } = req.body;
+
+        if (!exam_id) {
+            return res.status(400).json({ message: "Thiếu mã bài thi 👹" });
+        }
+
+        const exam = await Exam.findByPk(exam_id);
+        if (!exam) return res.status(404).json({ message: "Không tìm thấy bài thi 👹" });
+
+        // Chỉ cập nhật nếu có title hoặc description
+        if (title || description) {
+            await exam.update({
+                title: title ?? exam.title,
+                description: description ?? exam.description
+            });
+        }
+
+        // Cập nhật câu hỏi nếu có
+        if (Array.isArray(questions)) {
+            for (const q of questions) {
+                if (!q.question_id) continue;
+
+                const question = await Question.findByPk(q.question_id);
+                if (!question) continue;
+
+                if (q.question_text) {
+                    await question.update({ question_text: q.question_text });
+                }
+
+                if (Array.isArray(q.answers)) {
+                    for (const ans of q.answers) {
+                        if (!ans.answer_id) continue;
+
+                        const answer = await Answer.findByPk(ans.answer_id);
+                        if (!answer) continue;
+
+                        await answer.update({
+                            answer_text: ans.answer_text ?? answer.answer_text,
+                            is_correct: ans.is_correct ?? answer.is_correct
+                        });
+                    }
+                }
+            }
+        }
+
+        res.json({ message: "Cập nhật bài thi thành công ✅" });
+
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server 👹", error: error.message });
+    }
+};
