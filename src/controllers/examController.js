@@ -206,7 +206,7 @@ exports.getExamByID = async (req, res) => {
 exports.updateExamAndQuestions = async (req, res) => {
     try {
         const { exam_id } = req.params;
-        const { title, description, questions } = req.body;
+        const { title, description, time, questions } = req.body;
 
         if (!exam_id) {
             return res.status(400).json({ message: "Thiếu mã bài thi 👹" });
@@ -216,10 +216,11 @@ exports.updateExamAndQuestions = async (req, res) => {
         if (!exam) return res.status(404).json({ message: "Không tìm thấy bài thi 👹" });
 
         // Chỉ cập nhật nếu có title hoặc description
-        if (title || description) {
+        if (title || description || time !== undefined) {
             await exam.update({
                 title: title ?? exam.title,
-                description: description ?? exam.description
+                description: description ?? exam.description,
+                time: time ?? exam.time
             });
         }
 
