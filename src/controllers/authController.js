@@ -1,8 +1,88 @@
 const bcrypt = require("bcryptjs");
-
+const passport = require("passport");
+const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
+const CLIENT_ID = "954303627004-qcl5t7mb6sk8ge83qlnb3286vovs6bm6.apps.googleusercontent.com";
+const client = new OAuth2Client(CLIENT_ID);
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { Sequelize } = require("sequelize");
 const { User } = require("../models"); // Import model User từ Sequelize
 
+passport.use(new GoogleStrategy({
+    clientID: "954303627004-qcl5t7mb6sk8ge83qlnb3286vovs6bm6.apps.googleusercontent.com",
+    clientSecret: "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",
+    callbackURL: "/auth/google/callback"
+},
+    async (accessToken, refreshToken, profile, done) => {
+        try {
+            let user = await User.findOne({ where: { google_id: profile.id } });
+
+            if (!user) {
+                user = await User.create({
+                    google_id: profile.id,
+                    name: profile.displayName,
+                    email: profile.emails[0].value
+                });
+            }
+
+            return done(null, user);
+        } catch (err) {
+            return done(err, null);
+        }
+    }
+));
+
+passport.serializeUser((user, done) => {
+    done(null, user.user_id); // hoặc user.id tuỳ theo model
+});
+
+passport.deserializeUser(async (id, done) => {
+    const user = await User.findByPk(id);
+    done(null, user);
+});
+exports.googleLogin = async (req, res) => {
+    try {
+        const { id_token } = req.body;
+        if (!id_token) return res.status(400).json({ message: "Thiếu id_token 👹" });
+
+        // Verify token với Google
+        const ticket = await client.verifyIdToken({
+            idToken: id_token,
+            audience: process.env.GOOGLE_CLIENT_ID
+        });
+
+        const payload = ticket.getPayload();
+        const { email, name, sub: googleId } = payload;
+
+        // Kiểm tra user đã tồn tại chưa
+        let user = await User.findOne({ where: { email } });
+
+        // Nếu chưa có thì tạo mới user
+        if (!user) {
+            user = await User.create({
+                username: name,
+                email: email,
+                password: await bcrypt.hash(googleId, 10), // Lưu Google ID hash làm mật khẩu (tùy chọn)
+                role: "student" // hoặc role mặc định của bạn
+            });
+        }
+
+        // Tạo access token (tuỳ vào project bạn đang dùng loại token nào)
+        const token = jwt.sign({ user_id: user.user_id, role: user.role }, process.env.JWT_SECRET, {
+            expiresIn: "7d"
+        });
+
+        res.json({
+            message: "Đăng nhập bằng Google thành công ✅",
+            user,
+            token
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(401).json({ message: "Xác thực thất bại ❌", error: error.message });
+    }
+};
 exports.register = async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
