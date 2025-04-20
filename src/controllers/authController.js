@@ -56,12 +56,13 @@ exports.googleLogin = async (req, res) => {
 
         // Kiểm tra user đã tồn tại chưa
         let user = await User.findOne({ where: { email } });
+        const username = name || email.split("@")[0] || "user_" + Date.now();
 
         // Nếu chưa có thì tạo mới user
         if (!user) {
             user = await User.create({
-                username: name,
-                email: email,
+                username,
+                email,
                 password: await bcrypt.hash(googleId, 10), // Lưu Google ID hash làm mật khẩu (tùy chọn)
                 role: "student" // hoặc role mặc định của bạn
             });
