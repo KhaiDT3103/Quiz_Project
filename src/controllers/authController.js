@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const CLIENT_ID = "954303627004-qcl5t7mb6sk8ge83qlnb3286vovs6bm6.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
+const admin = require("../models/firebaseAdmin");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { Sequelize } = require("sequelize");
 const { User } = require("../models"); // Import model User từ Sequelize
@@ -45,36 +46,29 @@ exports.googleLogin = async (req, res) => {
         const { id_token } = req.body;
         if (!id_token) return res.status(400).json({ message: "Thiếu id_token 👹" });
 
-        // Verify token với Google
-        const ticket = await client.verifyIdToken({
-            idToken: id_token,
-            audience: process.env.GOOGLE_CLIENT_ID
-        });
+        // Xác minh id_token bằng Firebase
+        const decodedToken = await admin.auth().verifyIdToken(id_token);
 
-        const payload = ticket.getPayload();
-        const { email, name, sub: googleId } = payload;
+        const { email, name, uid } = decodedToken;
+        const username = name || email?.split("@")[0] || "user_" + Date.now();
 
-        // Kiểm tra user đã tồn tại chưa
         let user = await User.findOne({ where: { email } });
-        const username = name || email.split("@")[0] || "user_" + Date.now();
 
-        // Nếu chưa có thì tạo mới user
         if (!user) {
             user = await User.create({
                 username,
                 email,
-                password: await bcrypt.hash(googleId, 10), // Lưu Google ID hash làm mật khẩu (tùy chọn)
-                role: "student" // hoặc role mặc định của bạn
+                password: await bcrypt.hash(uid, 10), // không dùng uid cũng được
+                role: "student"
             });
         }
 
-        // Tạo access token (tuỳ vào project bạn đang dùng loại token nào)
         const token = jwt.sign({ user_id: user.user_id, role: user.role }, process.env.JWT_SECRET, {
             expiresIn: "7d"
         });
 
         res.json({
-            message: "Đăng nhập bằng Google thành công ✅",
+            message: "Đăng nhập bằng Firebase thành công ✅",
             user,
             token
         });
