@@ -66,10 +66,11 @@ exports.googleLogin = async (req, res) => {
         const token = jwt.sign({ user_id: user.user_id, role: user.role }, process.env.JWT_SECRET, {
             expiresIn: "7d"
         });
-
+        const userSafe = { ...user.toJSON() };
+        delete userSafe.password;
         res.json({
-            message: "Đăng nhập bằng Firebase thành công ✅",
-            user,
+            message: "Đăng nhập bằng Google thành công 👹",
+            user: userSafe,
             token
         });
 
