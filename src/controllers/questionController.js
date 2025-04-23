@@ -130,9 +130,9 @@ exports.deleteQuestion = async (req, res) => {
         // Sau khi xóa câu trả lời, xóa câu hỏi
         await question.destroy();
 
-        res.status(200).json({ message: `Câu hỏi và các câu trả lời liên quan đã bị xóa👹` });
+        res.status(200).json({ message: `Câu hỏi và các câu trả lời liên quan đã bị xóa👹`, status: true });
     } catch (error) {
-        res.status(500).json({ message: "Lỗi server👹", error: error.message || error });
+        res.status(500).json({ message: "Lỗi server👹", status: false, error: error.message || error });
     }
 };
 
@@ -165,9 +165,9 @@ exports.updateQuestionWithAnswers = async (req, res) => {
             }
         }
 
-        res.json({ message: "Cập nhật câu hỏi thành công 👹", question });
+        res.json({ message: "Cập nhật câu hỏi thành công 👹", status: true, question });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Lỗi server 👹", error: error.message });
+        res.status(500).json({ message: "Lỗi server 👹", status: false, error: error.message });
     }
 };
