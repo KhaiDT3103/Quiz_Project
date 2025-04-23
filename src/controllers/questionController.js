@@ -29,7 +29,33 @@ exports.getAllQuestionBySubjectID = async (req, res) => {
         res.status(500).json({ message: "Lỗi server", error: error.message || error });
     }
 };
+//Lấy tất cả câu hỏi theo user_id
+exports.getAllQuestionByUserID = async (req, res) => {
+    try {
+        const { user_id } = req.params;
 
+        // Kiểm tra xem user có tồn tại không
+        const userExists = await User.findByPk(user_id);
+        if (!userExists) {
+            return res.status(404).json({ message: "Không tìm thấy người dùng 👹" });
+        }
+
+        // Lấy tất cả câu hỏi theo user_id, sắp xếp theo độ khó
+        const questions = await Question.findAll({
+            include: [{
+                model: Answer,
+                as: "answers",
+                attributes: ["answer_id", "answer_text", "is_correct"],
+            }],
+            where: { created_by: user_id },
+            order: [[Sequelize.literal("FIELD(difficulty, 'easy', 'medium', 'hard')")]]
+        });
+
+        res.json({ user: userExists.username, questions });
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server", error: error.message || error });
+    }
+};
 
 
 //Thêm câu hỏi kèm câu trả lời
@@ -107,5 +133,41 @@ exports.deleteQuestion = async (req, res) => {
         res.status(200).json({ message: `Câu hỏi và các câu trả lời liên quan đã bị xóa👹` });
     } catch (error) {
         res.status(500).json({ message: "Lỗi server👹", error: error.message || error });
+    }
+};
+
+//Sửa câu hỏi
+exports.updateQuestionWithAnswers = async (req, res) => {
+    try {
+        const { question_id } = req.params;
+        const { question_text, difficulty, answers } = req.body;
+
+        const question = await Question.findByPk(question_id, {
+            include: [{ model: Answer, as: "answers" }]
+        });
+
+        if (!question) {
+            return res.status(404).json({ message: "Không tìm thấy câu hỏi 👹" });
+        }
+
+        // Cập nhật câu hỏi
+        question.question_text = question_text || question.question_text;
+        question.difficulty = difficulty || question.difficulty;
+        await question.save();
+
+        // Cập nhật từng đáp án
+        for (const updatedAnswer of answers) {
+            const answer = await Answer.findByPk(updatedAnswer.answer_id);
+            if (answer && answer.question_id === question.question_id) {
+                answer.answer_text = updatedAnswer.answer_text;
+                answer.is_correct = updatedAnswer.is_correct;
+                await answer.save();
+            }
+        }
+
+        res.json({ message: "Cập nhật câu hỏi thành công 👹", question });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Lỗi server 👹", error: error.message });
     }
 };
