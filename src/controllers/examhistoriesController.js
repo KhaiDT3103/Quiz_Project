@@ -99,6 +99,50 @@ exports.getHisUserByHisID = async (req, res) => {
         res.status(500).json({ message: "Lỗi server👹", error: error.message });
     }
 };
+//Lấy lịch sử theo exam_id
+exports.getTakersByExamId = async (req, res) => {
+    try {
+        const { exam_id } = req.params;
+
+        const exam = await Exam.findByPk(exam_id);
+        if (!exam) {
+            return res.status(404).json({ message: "Không tìm thấy bài kiểm tra 👹" });
+        }
+
+        const histories = await ExamHistories.findAll({
+            where: { exam_id },
+            include: [
+                {
+                    model: User,
+                    as: "user",
+                    attributes: ["user_id", "username", "email"]
+                }
+            ],
+            order: [["score", "DESC"]]
+        });
+
+        const result = histories.map(h => ({
+            user_id: h.user_id,
+            username: h.user?.username,
+            email: h.user?.email,
+            score: h.score,
+            started_at: h.started_at,
+            finished_at: h.finished_at
+        }));
+
+        res.json({
+            exam: {
+                exam_id: exam.exam_id,
+                title: exam.title
+            },
+            takers: result
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Lỗi server 👹", error: error.message });
+    }
+};
 
 //Nộp bài thi
 exports.submitExam = async (req, res) => {

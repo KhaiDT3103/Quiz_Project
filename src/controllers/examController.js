@@ -206,7 +206,7 @@ exports.getExamByID = async (req, res) => {
 exports.updateExamAndQuestions = async (req, res) => {
     try {
         const { exam_id } = req.params;
-        const { title, description, time, questions } = req.body;
+        const { title, description, time, question_ids } = req.body;
 
         if (!exam_id) {
             return res.status(400).json({ message: "Thiếu mã bài thi 👹" });
@@ -215,44 +215,27 @@ exports.updateExamAndQuestions = async (req, res) => {
         const exam = await Exam.findByPk(exam_id);
         if (!exam) return res.status(404).json({ message: "Không tìm thấy bài thi 👹" });
 
-        // Chỉ cập nhật nếu có title hoặc description
-        if (title || description || time !== undefined) {
-            await exam.update({
-                title: title ?? exam.title,
-                description: description ?? exam.description,
-                time: time ?? exam.time
-            });
+        // Cập nhật thông tin bài thi
+        await exam.update({
+            title: title ?? exam.title,
+            description: description ?? exam.description,
+            time: time ?? exam.time
+        });
+
+        if (Array.isArray(question_ids)) {
+            // Xoá tất cả câu hỏi cũ liên kết với bài thi
+            await ExamQuestion.destroy({ where: { exam_id } });
+
+            // Gán lại danh sách mới
+            const examQuestionData = question_ids.map(qid => ({
+                exam_id,
+                question_id: qid
+            }));
+
+            await ExamQuestion.bulkCreate(examQuestionData);
         }
 
-        // Cập nhật câu hỏi nếu có
-        if (Array.isArray(questions)) {
-            for (const q of questions) {
-                if (!q.question_id) continue;
-
-                const question = await Question.findByPk(q.question_id);
-                if (!question) continue;
-
-                if (q.question_text) {
-                    await question.update({ question_text: q.question_text });
-                }
-
-                if (Array.isArray(q.answers)) {
-                    for (const ans of q.answers) {
-                        if (!ans.answer_id) continue;
-
-                        const answer = await Answer.findByPk(ans.answer_id);
-                        if (!answer) continue;
-
-                        await answer.update({
-                            answer_text: ans.answer_text ?? answer.answer_text,
-                            is_correct: ans.is_correct ?? answer.is_correct
-                        });
-                    }
-                }
-            }
-        }
-
-        res.json({ message: "Cập nhật bài thi thành công 👹", status: true });
+        res.json({ message: "Cập nhật bài thi và danh sách câu hỏi thành công 👹", status: true });
 
     } catch (error) {
         res.status(500).json({ message: "Lỗi server 👹", error: error.message, status: false });
