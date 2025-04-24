@@ -140,7 +140,7 @@ exports.deleteQuestion = async (req, res) => {
 exports.updateQuestionWithAnswers = async (req, res) => {
     try {
         const { question_id } = req.params;
-        const { question_text, difficulty, answers } = req.body;
+        const { question_text, difficulty, subject_id, answers } = req.body;
 
         const question = await Question.findByPk(question_id, {
             include: [{ model: Answer, as: "answers" }]
@@ -153,15 +153,18 @@ exports.updateQuestionWithAnswers = async (req, res) => {
         // Cập nhật câu hỏi
         question.question_text = question_text || question.question_text;
         question.difficulty = difficulty || question.difficulty;
+        question.subject_id = subject_id || question.subject_id;
         await question.save();
 
         // Cập nhật từng đáp án
-        for (const updatedAnswer of answers) {
-            const answer = await Answer.findByPk(updatedAnswer.answer_id);
-            if (answer && answer.question_id === question.question_id) {
-                answer.answer_text = updatedAnswer.answer_text;
-                answer.is_correct = updatedAnswer.is_correct;
-                await answer.save();
+        if (Array.isArray(answers)) {
+            for (const updatedAnswer of answers) {
+                const answer = await Answer.findByPk(updatedAnswer.answer_id);
+                if (answer && answer.question_id === question.question_id) {
+                    answer.answer_text = updatedAnswer.answer_text;
+                    answer.is_correct = updatedAnswer.is_correct;
+                    await answer.save();
+                }
             }
         }
 
